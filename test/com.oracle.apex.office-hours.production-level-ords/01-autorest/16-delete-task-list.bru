@@ -1,0 +1,38 @@
+meta {
+  name: 16-delete-task-list
+  type: http
+  seq: 17
+}
+
+delete {
+  url: {{process.env.BASE_URL}}/{{process.env.AUTOREST_SCHEMA_ALIAS}}/task_lists/{{autorest_task_list_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{autorest_access_token}}
+}
+
+body:json {
+  {
+    "title": "Llevar el auto a mantenimiento",
+    "description": null,
+    "start_date": null,
+    "due_date": null,
+    "task_list_id": "{{autorest_task_list_id}}",
+    "is_done": "Y"
+  }
+}
+
+body:text {
+  id,title,description
+  1,Compras,
+}
+
+assert {
+  res.status: eq 200
+  res.body: isJson
+  res.body.rowsDeleted: isDefined
+  res.body.rowsDeleted: gt 0
+}

@@ -1,0 +1,43 @@
+meta {
+  name: 11-upsert-task
+  type: http
+  seq: 12
+}
+
+put {
+  url: {{process.env.BASE_URL}}/{{process.env.AUTOREST_SCHEMA_ALIAS}}/tasks/{{autorest_task_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{autorest_access_token}}
+}
+
+body:json {
+  {
+    "title": "Llevar el auto a mantenimiento",
+    "description": null,
+    "start_date": null,
+    "due_date": null,
+    "task_list_id": "{{autorest_task_list_id}}",
+    "is_done": "Y"
+  }
+}
+
+body:text {
+  id,title,description
+  1,Compras,
+}
+
+assert {
+  res.status: eq 200
+  res.body: isJson
+  res.body.id: isDefined
+}
+
+docs {
+  See [Update/Insert Table Row](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/24.2/orddg/developing-REST-applications.html#ORDDG-GUID-A323AA4F-32BE-47B7-9CC2-C0F4C8F4DFBE)
+  
+  **IMPORTANT**: If the primary key value does not exist, this is treated as an insert
+}

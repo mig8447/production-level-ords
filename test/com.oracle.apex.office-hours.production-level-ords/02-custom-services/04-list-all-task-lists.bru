@@ -1,0 +1,22 @@
+meta {
+  name: 04-list-all-task-lists
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{process.env.BASE_URL}}/{{process.env.CUSTOM_SERVICES_SCHEMA_ALIAS}}/api/task_lists/
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{custom_services_access_token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body: isJson
+  res.body.items: isDefined
+  res.body.items.length: gte 1
+}

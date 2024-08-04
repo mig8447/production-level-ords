@@ -1,0 +1,13 @@
+{
+  "version": "1",
+  "name": "com.oracle.apex.office-hours.production-level-ords",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "presets": {
+    "requestType": "http",
+    "requestUrl": "{{process.env.BASE_URL}}"
+  }
+}

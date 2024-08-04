@@ -1,0 +1,32 @@
+meta {
+  name: 09-update-task
+  type: http
+  seq: 10
+}
+
+put {
+  url: {{process.env.BASE_URL}}/{{process.env.CUSTOM_SERVICES_SCHEMA_ALIAS}}/api/tasks/{{custom_services_task_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{custom_services_access_token}}
+}
+
+body:json {
+  {
+    "title": "Llevar el auto a mantenimiento",
+    "description": null,
+    "start_date": null,
+    "due_date": null,
+    "task_list_id": "{{custom_services_task_list_id}}",
+    "is_done": "Y"
+  }
+}
+
+assert {
+  res.status: eq 200
+  res.body: isJson
+  res.body.items: isDefined 
+}

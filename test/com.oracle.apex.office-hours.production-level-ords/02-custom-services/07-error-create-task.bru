@@ -1,0 +1,29 @@
+meta {
+  name: 07-error-create-task
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{process.env.BASE_URL}}/{{process.env.CUSTOM_SERVICES_SCHEMA_ALIAS}}/api/tasks/
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{custom_services_access_token}}
+}
+
+body:json {
+  {}
+}
+
+assert {
+  res.status: eq 400
+  res.body: isJson
+  res.body.error: isString
+}
+
+docs {
+  An empty payload object provokes a database error which is catched in an exception and replaced with a custom error string
+}

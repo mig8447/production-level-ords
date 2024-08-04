@@ -1,0 +1,40 @@
+meta {
+  name: 03-batch-load-task-lists
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{process.env.BASE_URL}}/{{process.env.AUTOREST_SCHEMA_ALIAS}}/task_lists/batchload
+  body: text
+  auth: bearer
+}
+
+headers {
+  Content-Type: text/csv
+}
+
+auth:bearer {
+  token: {{autorest_access_token}}
+}
+
+body:text {
+  id,title,description
+  1,Compras,
+  2,Trabajo,
+  3,Personal,
+}
+
+body:multipart-form {
+  file: @file(task_lists.csv)
+}
+
+assert {
+  res.body.split('\n').at(-2): startsWith SUCCESS:
+}
+
+docs {
+  See [Post by Batch Load](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/24.2/orddg/developing-REST-applications.html#ORDDG-GUID-CA242E61-9012-4081-85A0-CC410B18A3CD)
+  
+  **IMPORTANT**: If set, the `truncate` parameter will cause an error if the table being truncated contains rows referenced by other tables through a foreign key
+}

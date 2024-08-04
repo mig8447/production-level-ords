@@ -1,0 +1,32 @@
+meta {
+  name: 02-create-task-list
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{process.env.BASE_URL}}/{{process.env.CUSTOM_SERVICES_SCHEMA_ALIAS}}/api/task_lists/
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{custom_services_access_token}}
+}
+
+body:json {
+  {
+    "title": "Otros",
+    "description": null
+  }
+}
+
+vars:post-response {
+  custom_services_task_list_id: res.body.id
+}
+
+assert {
+  res.status: eq 201
+  res.body: isJson
+  res.body.id: isNumber
+}

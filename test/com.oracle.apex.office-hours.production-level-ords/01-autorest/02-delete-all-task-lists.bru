@@ -1,0 +1,31 @@
+meta {
+  name: 02-delete-all-task-lists
+  type: http
+  seq: 3
+}
+
+delete {
+  url: {{process.env.BASE_URL}}/{{process.env.AUTOREST_SCHEMA_ALIAS}}/task_lists/?q={}
+  body: none
+  auth: bearer
+}
+
+params:query {
+  q: {}
+}
+
+auth:bearer {
+  token: {{autorest_access_token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body: isJson
+  res.body.rowsDeleted: isDefined
+}
+
+docs {
+  See [Delete Using Filter](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/24.2/orddg/developing-REST-applications.html#ORDDG-GUID-24ED886F-6B34-4570-A964-015A5A6983B0)
+  
+  **IMPORTANT**: Using an empty filter `{}` will delete all rows in the table. It is recommended to use with caution
+}

@@ -1,0 +1,30 @@
+meta {
+  name: 05-error-update-task-list
+  type: http
+  seq: 6
+}
+
+put {
+  url: {{process.env.BASE_URL}}/{{process.env.CUSTOM_SERVICES_SCHEMA_ALIAS}}/api/task_lists/{{custom_services_task_list_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{custom_services_access_token}}
+}
+
+body:json {
+  {}
+}
+
+assert {
+  res.status: eq 400
+  res.body: isJson
+  res.body.error: isString
+  res.headers['content-type']: eq application/json
+}
+
+docs {
+  An empty payload object provokes a database error which is catched in an exception and replaced with a custom error string
+}

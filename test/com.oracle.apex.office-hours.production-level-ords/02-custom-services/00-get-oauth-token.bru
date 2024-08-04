@@ -1,0 +1,30 @@
+meta {
+  name: 00-get-oauth-token
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{process.env.BASE_URL}}/{{process.env.CUSTOM_SERVICES_SCHEMA_ALIAS}}/oauth/token
+  body: formUrlEncoded
+  auth: basic
+}
+
+auth:basic {
+  username: {{process.env.CUSTOM_SERVICES_CLIENT_ID}}
+  password: {{process.env.CUSTOM_SERVICES_CLIENT_SECRET}}
+}
+
+body:form-urlencoded {
+  grant_type: client_credentials
+}
+
+vars:post-response {
+  custom_services_access_token: res.body.access_token
+}
+
+assert {
+  res.status: eq 200
+  res.body: isJson
+  res.body.access_token: isDefined
+}

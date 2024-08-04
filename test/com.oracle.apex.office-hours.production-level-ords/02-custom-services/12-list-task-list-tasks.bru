@@ -1,0 +1,42 @@
+meta {
+  name: 12-list-task-list-tasks
+  type: http
+  seq: 13
+}
+
+get {
+  url: {{process.env.BASE_URL}}/{{process.env.CUSTOM_SERVICES_SCHEMA_ALIAS}}/api/tasks/?q={"task_list_id":"{{custom_services_task_list_id}}"}
+  body: json
+  auth: bearer
+}
+
+params:query {
+  q: {"task_list_id":"{{custom_services_task_list_id}}"}
+}
+
+auth:bearer {
+  token: {{custom_services_access_token}}
+}
+
+body:json {
+  {
+    "title": "Otros",
+    "description": null
+  }
+}
+
+body:text {
+  id,title,description
+  1,Compras,
+}
+
+assert {
+  res.status: eq 200
+  res.body: isJson
+  res.body.items: isDefined
+  res.body.items.length: gte 1
+}
+
+docs {
+  See [Filtering in Queries](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/24.2/orddg/developing-REST-applications.html#ORDDG-GUID-091748F8-3D14-402B-9310-25E6A9116B47)
+}

@@ -1,0 +1,37 @@
+meta {
+  name: 06-get-task-list
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{process.env.BASE_URL}}/{{process.env.AUTOREST_SCHEMA_ALIAS}}/task_lists/{{autorest_task_list_id}}
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{autorest_access_token}}
+}
+
+body:json {
+  {
+    "title": "Otros",
+    "description": null
+  }
+}
+
+body:text {
+  id,title,description
+  1,Compras,
+}
+
+assert {
+  res.status: eq 200
+  res.body: isJson
+  res.body.id: isDefined
+}
+
+docs {
+  See [Get Table Row Using Primary Key](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/24.2/orddg/developing-REST-applications.html#ORDDG-GUID-D3A4C99B-3090-481B-846D-45FBA578B1D2)
+}

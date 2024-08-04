@@ -1,0 +1,41 @@
+meta {
+  name: 05-create-task-list
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{process.env.BASE_URL}}/{{process.env.AUTOREST_SCHEMA_ALIAS}}/task_lists/
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{autorest_access_token}}
+}
+
+body:json {
+  {
+    "title": "Otros",
+    "description": null
+  }
+}
+
+body:text {
+  id,title,description
+  1,Compras,
+}
+
+vars:post-response {
+  autorest_task_list_id: res.body.id
+}
+
+assert {
+  res.status: eq 201
+  res.body: isJson
+  res.body.id: isDefined
+}
+
+docs {
+  See [Insert Table Row](https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/24.2/orddg/developing-REST-applications.html#ORDDG-GUID-C71CF767-D4E4-475B-BEFE-0748E9EAA78E)
+}

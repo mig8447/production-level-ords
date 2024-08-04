@@ -1,0 +1,20 @@
+meta {
+  name: 14-delete-task-list
+  type: http
+  seq: 15
+}
+
+delete {
+  url: {{process.env.BASE_URL}}/{{process.env.CUSTOM_SERVICES_SCHEMA_ALIAS}}/api/task_lists/{{custom_services_task_list_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{custom_services_access_token}}
+}
+
+assert {
+  res.status: eq 204
+  res.body: isEmpty
+}

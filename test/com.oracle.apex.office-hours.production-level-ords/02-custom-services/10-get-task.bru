@@ -1,0 +1,28 @@
+meta {
+  name: 10-get-task
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{process.env.BASE_URL}}/{{process.env.CUSTOM_SERVICES_SCHEMA_ALIAS}}/api/tasks/{{custom_services_task_id}}
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{custom_services_access_token}}
+}
+
+assert {
+  res.status: eq 200
+  res.body: isJson
+  res.body.id: eq {{custom_services_task_id}}
+}
+
+tests {
+  test( 'task_list link should exist', async () => {
+      let lJson = res.getBody();
+      expect( lJson.links.find( pLink => pLink.rel === 'task_list' ) ).to.not.equal( null );
+  } );
+}

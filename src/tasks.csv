@@ -1,0 +1,11 @@
+id,title,description,start_date,due_date,is_done,task_list_id
+1,5 Manzanas,,,2024-07-27,N,1
+2,3 Plátanos,,,2024-07-27,N,1
+3,10 Naranjas,,,2024-07-27,N,1
+4,1 Caja de cereal,De chocolate,,2024-07-27,N,1
+5,Preparar Presentación,"Crear diapositivas para la reunión",2024-07-01,2024-08-03,Y,2
+6,Llamar al cliente,"Discutir actualizaciones del proyecto y abordar inquietudes",,2024-07-26,N,2
+7,Enviar Informe de Gastos,"Compilar recibos y enviar solicitud de reembolso",,2024-08-07,N,2
+8,Revisar Código,"Analizar cambios en el código y proporcionar comentarios",,2024-08-12,N,2
+9,Organizar Fiesta Sorpresa,"Planificar logística y coordinar invitaciones",2024-08-10,2024-08-17,N,3
+10,Evaluar Propuestas,"Analizar propuestas de proveedores y seleccionar la mejor opción",,2024-09-07,N,2
